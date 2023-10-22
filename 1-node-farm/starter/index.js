@@ -1,0 +1,54 @@
+const fs = require("fs");
+const http = require("http");
+const path = require("path");
+const url = require("url");
+
+//Bloching synchronous way
+// const textIn = fs.readFileSync("./txt/input.txt", "utf-8");
+// console.log("Reading file ...", textIn);
+// const textOut = `This is what we we about avocado: ${textIn}\n Created on ${Date.now()}`;
+// fs.writeFileSync("./txt/output.txt", textOut);
+// console.log("Writing file ...");
+// console.log(fs.readFileSync("./txt/output.txt", "UTF-8"));
+
+//Non-blocking asynchronous way
+// fs.readFile("./txt/start.txt", "utf-8", (err, data) => {
+//   if (err) return console.log("ERROR");
+//   fs.readFile(`./txt/${data}.txt`, "utf-8", (err2, data2) => {
+//     fs.readFile("./txt/append.txt", "utf-8", (err3, data3) => {
+//       fs.writeFile("./txt/final.txt", `${data2}\n${data3}`, "utf-8", (err) => {
+//         console.log("Your file has been written.");
+//       });
+//     });
+//   });
+// });
+// console.log("read this first");
+
+////////////////////////
+// SERVER
+
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
+const dataObj = JSON.parse(data);
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === "/overview" || pathName === "/") {
+    res.end("THIS IS OVERVIEW");
+  } else if (pathName === "/product") {
+    res.end("THIS IS PRODUCT");
+  } else if (pathName === "/api") {
+    res.writeHead(200, { "Content-type": "application/json" });
+    res.end(data);
+  } else {
+    res.writeHead(404, {
+      "Content-type": "text/html",
+      "my-own-header": "hello-world",
+    });
+    res.end("<h1>PAGE NOT FOUND</h1>");
+  }
+});
+
+server.listen(8000, "127.0.0.1", () => {
+  console.log("listening to request on post 8000");
+});
