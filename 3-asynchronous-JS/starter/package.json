@@ -1,0 +1,14 @@
+{
+  "name": "asynchronous-js",
+  "version": "1.0.0",
+  "description": "async-js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "superagent": "^8.1.2"
+  }
+}
