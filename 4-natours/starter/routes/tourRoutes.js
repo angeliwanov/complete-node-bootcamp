@@ -1,8 +1,15 @@
 const express = require('express');
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
+const reviewRouter = require('./reviewRoutes');
 
 const router = express.Router();
+
+//USE NESTED ROUTING TO POST AND GET REVIEWS
+//POST /tour/234324/reviews
+//GET /tour/234324/reviews
+
+router.use('/:tourId/reviews', reviewRouter);
 
 router
   .route('/top-5-cheap')
