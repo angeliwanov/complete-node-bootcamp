@@ -8,25 +8,27 @@ const router = express.Router({ mergeParams: true });
 //POST /tour/32343/reviews
 //POST /reviews
 
+//PROTECTS ALL ROUTES DECLARED AFTER THIS MIDDLEWARE
+router.use(authController.protect);
+
 router
   .route('/')
   .get(reviewController.getAllReviews)
   .post(
-    authController.protect,
     authController.restrictTo('user'),
+    reviewController.setTourUserIds,
     reviewController.createReview,
   );
 
 router
   .route('/:id')
+  .get(reviewController.getReview)
   .delete(
-    authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('user', 'admin'),
     reviewController.deleteReview,
   )
   .patch(
-    authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('user', 'admin'),
     reviewController.updateReview,
   );
 

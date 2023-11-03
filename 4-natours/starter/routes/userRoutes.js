@@ -6,18 +6,29 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
-
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
+//REQUIRE PROTECTION FOR ALL ROUTES DECLARED AFTER THE MIDDLEWARE
+router.use(authController.protect);
+
 router.patch(
   '/updateMyPassword',
-  authController.protect,
+
   authController.updatePassword,
 );
 
-router.patch('/updateMe', authController.protect, userContoller.updateMe);
-router.delete('/deleteMe', authController.protect, userContoller.deleteMe);
+router.get(
+  '/me',
+
+  userContoller.getMe,
+  userContoller.getUser,
+);
+router.patch('/updateMe', userContoller.updateMe);
+router.delete('/deleteMe', userContoller.deleteMe);
+
+//RESTRICTED OT ADMIN ONLY MIDDLEWARE
+router.use(authController.restrictTo('admin'));
 
 router.route('/').get(userContoller.getAllUsers).post(userContoller.createUser);
 
