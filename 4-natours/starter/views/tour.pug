@@ -9,6 +9,10 @@ mixin overviewBox(label, text, icon)
     span.overview-box__label=label
     span.overview-box__text=text
 
+block append head
+  script(src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet')
+
 block content
   section.section-header
     .header__hero
@@ -57,8 +61,9 @@ block content
     each img, i in tour.images
       .picture-box
         img.picture-box__img(class=`picture-box__img--${i+1}` src=`/img/tours/${img}`, alt=`${tour.name} ${i+1}`)
+
   section.section-map
-    #map
+    #map(data-locations=`${JSON.stringify(tour.locations)}`)
 
   section.section-reviews
     .reviews
