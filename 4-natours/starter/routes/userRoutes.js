@@ -12,11 +12,7 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 //REQUIRE PROTECTION FOR ALL ROUTES DECLARED AFTER THE MIDDLEWARE
 router.use(authController.protect);
 
-router.patch(
-  '/updateMyPassword',
-
-  authController.updatePassword,
-);
+router.patch('/updateMyPassword', authController.updatePassword);
 
 router.get(
   '/me',
