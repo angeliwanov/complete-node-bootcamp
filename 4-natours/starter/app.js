@@ -68,7 +68,7 @@ app.use(
 //Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 
@@ -83,8 +83,7 @@ app.all('*', (req, res, next) => {
   // const err = new Error(`Can't find ${req.originalUrl} on this server`);
   // err.status = 'fail';
   // err.statusCode = 404;
-
-  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+  // next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
 app.use(globalErrorhandler);
