@@ -1,9 +1,6 @@
 const express = require('express');
-const multer = require('multer');
 const userContoller = require('../controllers/userController');
 const authController = require('../controllers/authController');
-
-const upload = multer({ dest: 'public/img/users' });
 
 const router = express.Router();
 
@@ -24,7 +21,12 @@ router.get(
   userContoller.getMe,
   userContoller.getUser,
 );
-router.patch('/updateMe', upload.single('photo'), userContoller.updateMe);
+router.patch(
+  '/updateMe',
+  userContoller.uploadUserPhoto,
+  userContoller.resizeUserPhoto,
+  userContoller.updateMe,
+);
 router.delete('/deleteMe', userContoller.deleteMe);
 
 //RESTRICTED OT ADMIN ONLY MIDDLEWARE
