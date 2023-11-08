@@ -4,10 +4,6 @@ const authController = require('../controllers/authController');
 
 const router = express.Router({ mergeParams: true });
 
-//both routes are handled in router.post
-//POST /tour/32343/reviews
-//POST /reviews
-
 //PROTECTS ALL ROUTES DECLARED AFTER THIS MIDDLEWARE
 router.use(authController.protect);
 
