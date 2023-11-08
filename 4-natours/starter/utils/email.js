@@ -14,12 +14,21 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === 'production ') {
       //Sendgird
-      return 1;
+      return nodemailer.createTransport({
+        // service: 'Brevo',
+        host: process.env.SENDINBLUE_HOST,
+        port: process.env.SENDINBLUE_PORT,
+        auth: {
+          user: process.env.SENDINBLUE_LOGIN,
+          pass: process.env.SENDINBLUE_SMTPKEY,
+        },
+      });
     }
 
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
@@ -57,5 +66,12 @@ module.exports = class Email {
 
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the Natours family');
+  }
+
+  async sendPasswordReset() {
+    await this.send(
+      'passwordReset',
+      'Your password reset token is valid only for 10 minutes',
+    );
   }
 };
